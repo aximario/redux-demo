@@ -98,7 +98,6 @@ const store = createStore(reducer, state);
 store = {
   dispatch, // 销售员
   getState, // 查看账本
-  getReducer // 查看收银员
   //...
 }
 ```
