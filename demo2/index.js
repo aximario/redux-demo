@@ -1,6 +1,6 @@
 /**
- * redux入门 -- 买水果示例 https://juejin.im/post/5ad466f15188255c27226796
- * @author aximario 2018-04-16
+ * redux入门 -- 买水果生鲜示例 https://juejin.im/post/5ad56db7518825558c47ec91
+ * @author aximario 2018-04-17
  */
 
 /** --- 顾客的需求 ---*/
