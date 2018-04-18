@@ -54,8 +54,11 @@ function freshReducer(state = freshState, action) {
 
 const { createStore, combineReducers } = require('redux');
 
+// 总账本
+const state = { fruit: fruitReducer, fresh: freshReducer };
+
 // 总收银员
-const reducer = combineReducers({ fruit: fruitReducer, fresh: freshReducer });
+const reducer = combineReducers(state);
 
 // 水果店
 const store = createStore(reducer);
