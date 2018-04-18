@@ -1,139 +1,103 @@
 # Redux 入门 -- 买水果
 
-我们去水果市场买水果的情形可能是这样的：
+> 掘金：[Redux 入门 -- 买水果](https://juejin.im/post/5ad466f15188255c27226796)
 
-* 顾客对售卖员说：麻烦给我来一斤橘子（付钱）。
-* 售卖员给顾客称了一斤橘子并对收银员说：卖出了一斤橘子，记一下。
-* 收银员记好账说：好的，记账上了，可以把橘子给顾客了。
-* 顾客拿了橘子开心的走了。
+本文目标：通过买水果的例子，希望能让初学 redux 的同学掌握 redux 的基本用法，快速入门。
 
-我们可以把这个买卖水果的过程这样抽象出来：
+一天，程序员阿大（化名）想要去买水果吃，发现小区周围居然没有水果店，于是就打算自己开一个水果店赚点小钱。
 
-首先我们需要一个账本，这个账本记录了水果买卖的流水，我们可以用一个对象表示：
+他想了想未来顾客买水果的行为：
 
 ```js
-const state = {
-  orange: 0,
-  apple: 0,
-  banana: 0
-};
-```
-
-然后我们抽象出顾客的需求，这里可以抽象成两点：**购买水果的种类**和**购买的斤数**：
-
-```js
+// 买 2 斤水果
 const action = {
-  type: 'BUY_ORANGE',
-  payload: 1
+  type: 'BUY_APPLE', // 买苹果
+  payload: 2
 }
 ```
 
-不同的用户可能有不同的需求，所以我们可以包装成一个**生成需求的函数**，这个函数返回用户的需求：
-
-```js
-function buyOrange(num) {
-  return {
-      type: 'BUY_ORANGE',
-      payload: num
-  }
-}
-
-function buyApple(num) {
-  return {
-      type: 'BUY_APPLE',
-      payload: num
-  }
-}
-
-function buyBanana(num) {
-  return {
-      type: 'BUY_BANANA',
-      payload: num
-  }
-}
-```
-
-然后我们需要请一个收银员，他知道对于不同的顾客需求，该怎么记账，收银员需要两样东西：**账本**和顾客的**需求**，这样才能根据顾客的需求来操作账本：
+那不同的顾客要的斤数可能不同，于是他写了下面这个方法：
 
 ```js
 /**
- * @param state 账本
- * @param action 顾客的需求
+ * @param {number} num 顾客要买的斤数 
  */
-function reducer(state, action) {
-  switch(action.type) {
-    case 'BUY_ORANGE': {}
-      return Object.assign({}, state, {
-        orange: state.orange + action.payload
-      });
-    case 'BUY_APPLE':
-      return Object.assign({}, state, {
-        apple: state.apple + action.payload
-      });
-    case 'BUY_BANANA':
-      return Object.assign({}, state, {
-        banana: state.banana + action.payload
-      });
-    default:
-      return state;
+function buyApple(num) {
+  return {
+    type: 'BUY_APPLE',
+    payload: num
   }
 }
 ```
 
-这个函数每次都返回一个**新的账本**，这样就能方便的查到每一笔交易时账本的状态。
+这样，只要知道斤数就可以快速生成顾客的各种需求了。
 
-接下来让记账员开始上班工作，工作需要一个**收银员**和**最初的账本**：
+不仅如此，阿大还想要知道每天卖出了什么水果，各卖了多少斤，于是他想要一个账本记录每天的交易：
 
 ```js
-import { createStore } from 'redux';
-
-// reducer 收银员
-// state 最初的账本
-const store = createStore(reducer, state);
+// 为了简便，就只举一个例子，事实上还有很多其他水果，大家自行脑补
+const state = { apple: 0 };
 ```
 
-`redux` 提供的 `createStore` 方法负责创建水果店 `store`。这个生成的 `store` 有下面的一些东西：
+好了，现在顾客需求，账本，水果都有了，那谁来记账呢？所以阿大请了一个**收银员**负责记账，并告诉他这么记账：
 
 ```js
-store = {
-  dispatch, // 销售员
-  getState, // 查看账本
-  //...
+function reducer(state, action) {
+
+  // 如果有人买了苹果，加上顾客买的斤数，更新账本
+  if (action.type === 'BUY_APPLE') {
+    return Object.assign({}, state, {
+      apple: state.apple + action.payload
+    });
+  }
+
+  // 买咱们店里没有的东西，不更新账本，原样返回
+  return state;
 }
 ```
 
-好了，这个水果店可以开始营业了。
-
-顾客开始来购买水果
+好了，现在收银员也有了，店铺可以营业了，顾客开始来了，收银员开始工作了：
 
 ```js
-buyApple(3); // 顾客1说：买三斤苹果
-buyBanana(5); // 顾客2说：买5斤香蕉
-buyOrange(1); // 顾客3说： 买1斤橘子
-// ...更多顾客
+const state2 /** 服务顾客 1 之后的新账本 */ = reducer(state, buyApple(1) /** 顾客1： 买 1 斤苹果 */);
+const state3 /** 服务顾客 2 之后的新账本 */ = reducer(state2, buyApple(3) /** 顾客2： 买 3 斤苹果 */);
+// ...
 ```
 
-销售员需要知道**顾客的需求**并转告给收银员
+结果小区只有这一个水果店，人太多了，收银员又要称水果，又要收银记账，更新账本，忙的团团转，一直向阿大抱怨太忙了，阿大看到店铺运营能力不够，于是
+用上了开源社区的黑科技 `redux` 开始升级店铺：
 
 ```js
-store.dispatch(buyApple(3));
-store.dispatch(buyBanana(5));
-store.dispatch(buyOrange(7));
-store.dispatch(buyBanana(5));
-store.dispatch(buyOrange(2));
-store.dispatch(buyApple(4));
-store.dispatch(buyOrange(6));
+// redux 提供了创建店铺的功能
+const { createStore } = require('redux');
+
+// 创建水果店需要收银员和收银员管理的账本
+const store = createStore(reducer, state);
 ```
 
-经过了一天的买卖，店老板来了，要看看今天的业绩
+此外，通过 `redux` 创建的店铺还自带**销售员** `store.dispatch`，销售员负责称水果给顾客，搞定之后就告诉收银员顾客买了几斤什么水果，很大
+程度的减轻了开始收银员的压力。
+
+不仅如此，`redux` 还提供了一个功能，每服务一个顾客，都可以额外做一些事情，于是阿大就想看看每笔交易之后的账本：
 
 ```js
-console.log(store.getState()); // 查看账本
-// { orange: 15, apple: 7, banana: 10 }
+// 每一笔交易都记下来给阿大看
+store.subscribe(() => console.log(JSON.stringify(store.getState())));
 ```
 
-干的不错，升职加薪！
+好，店铺升级之后，顾客又来了：
 
-忙碌的一天过去啦~
+```js
+// 销售员开始销售
+store.dispatch(buyApple(3)); // {"apple":3}
+store.dispatch(buyApple(4)); // {"apple":7}
+```
+
+店铺稳定的运营了下去，阿大心里美滋滋~
+
+营业模型：
+![](http://ox12mie1c.bkt.clouddn.com/DEMO1.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)
+
+> 下一篇：掘金：[Redux入门 -- 买水果生鲜](https://juejin.im/post/5ad56db7518825558c47ec91)
 
 > 代码地址：[Redux入门 -- 买水果](https://github.com/aximario/redux-demo/blob/master/demo1/index.js)

@@ -3,62 +3,39 @@
  * @author aximario 2018-04-16
  */
 
-const { createStore } = require('redux');
-
-const state = {
-  orange: 0,
-  apple: 0,
-  banana: 0
-};
-
-function reducer(state, action) {
-  switch(action.type) {
-    case 'BUY_ORANGE': {}
-      return Object.assign({}, state, {
-        orange: state.orange + action.payload
-      });
-    case 'BUY_APPLE':
-      return Object.assign({}, state, {
-        apple: state.apple + action.payload
-      });
-    case 'BUY_BANANA':
-      return Object.assign({}, state, {
-        banana: state.banana + action.payload
-      });
-    default:
-      return state;
-  }
-}
-
-function buyOrange(num) {
-  return {
-      type: 'BUY_ORANGE',
-      payload: num
-  }
-}
-
+// 顾客的需求，买苹果
 function buyApple(num) {
   return {
-      type: 'BUY_APPLE',
-      payload: num
+    type: 'BUY_APPLE',
+    payload: num
   }
 }
 
-function buyBanana(num) {
-  return {
-      type: 'BUY_BANANA',
-      payload: num
+// 账本
+const state = { apple: 0 };
+
+// 收银员
+function reducer(state, action) {
+
+  // 如果有人买了苹果，更新账本
+  if (action.type === 'BUY_APPLE') {
+    return Object.assign({}, state, {
+      apple: state.apple + action.payload
+    });
   }
+
+  // 买其他的东西，不更新账本，原样返回
+  return state;
 }
 
+const { createStore } = require('redux');
+
+// 水果店
 const store = createStore(reducer, state);
 
-store.dispatch(buyApple(3));
-store.dispatch(buyBanana(5));
-store.dispatch(buyOrange(7));
-store.dispatch(buyBanana(5));
-store.dispatch(buyOrange(2));
-store.dispatch(buyApple(4));
-store.dispatch(buyOrange(6));
+// 每一笔交易都记下来给阿大看
+store.subscribe(() => console.log(JSON.stringify(store.getState())));
 
-console.log(store.getState());
+// 销售员开始销售
+store.dispatch(buyApple(3));
+store.dispatch(buyApple(4));
