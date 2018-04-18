@@ -2,9 +2,9 @@
 
 > 掘金：[Redux 入门 -- 买水果生鲜](https://juejin.im/post/5ad56db7518825558c47ec91)
 
-> 本文目标：通过买水果生鲜的例子，希望能让初学 redux 的同学在掌握 redux 的基本用法的基础上，能处理比较复杂的 `store` 模型。
+> 本文目标：通过买水果生鲜的例子，希望让初学 redux 的同学在掌握 redux 的基本用法的基础上，能处理比较复杂的 `store` 模型。
 
-在上一篇文章[Redux 入门 -- 买水果](https://juejin.im/post/5ad466f15188255c27226796)中，阿大用 `redux` 升级了水果店。 
+在上一篇文章 [Redux 入门 -- 买水果](https://juejin.im/post/5ad466f15188255c27226796)中，阿大用 `redux` 升级了水果店。 
 
 谁知道水果店生意越来越好，于是阿大开始拓展业务，不仅卖水果，还卖起了生鲜，于是有了水果部和生鲜部。
 
@@ -20,7 +20,7 @@ function buyEgg(num) {
 }
 ```
 
-分了不通的部门之后，不通的业务有不同的记账方式，得分账记了，增加一个生鲜的记账本：
+分了不同的部门之后，不同的业务有不同的记账方式，得分账记了，开来要增加一个生鲜的记账本：
 
 ```js
 const freshState = {
@@ -57,20 +57,16 @@ function freshReducer(state = freshState, action) {
 // 水果部收银员
 - function reducer(state, action) {
 + function fruitReducer(state = fruitState, action) {
-  
-   // 如果有人买了苹果，更新账本
    if (action.type === 'BUY_APPLE') {
      return Object.assign({}, state, {
        apple: state.apple + action.payload
      });
    }
-   
-   // 买其他的东西，不更新账本，原样返回
    return state;
  }
 ```
 
-但是阿大并不想看各个部门的分账本，他只想看一个总账本就好了。刚好 `redux` 提供了 `combineReducers` 把各个收银员管理的账本合起来：
+但是阿大并不想看各个部门的分账本，他只想看一个总账本就好了。刚好 `redux` 提供了 `combineReducers` 功能，可以把各个收银员管理的账本合起来：
 
 ```diff
 - const { createStore } = require('redux');
