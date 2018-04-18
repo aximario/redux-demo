@@ -1,6 +1,6 @@
 /**
- * redux入门 -- 买水果示例 https://juejin.im/post/5ad466f15188255c27226796
- * @author aximario 2018-04-16
+ * redux入门 -- 买进口水果生鲜示例 https://juejin.im/post/5ad5920e6fb9a028c523afcf
+ * @author aximario 2018-04-18
  */
 
 /** --- 顾客的需求 ---*/
@@ -64,7 +64,6 @@ function fruitReducer(state = fruitState, action) {
 
 // 生鲜部收银员
 function freshReducer(state = freshState, action) {
-  // 如果有人买了相应的水果，更新账本
   switch (action.type) {
     case 'BUY_EGG':
       return Object.assign({}, state, {
@@ -74,8 +73,6 @@ function freshReducer(state = freshState, action) {
       return Object.assign({}, state, {
         importedEgg: state.importedEgg + action.payload
       });
-  
-    // 买其他的东西，不更新账本，原样返回
     default: return state;
   } 
 }
@@ -119,7 +116,7 @@ const reducer = combineReducers({ fruit: fruitReducer, fresh: freshReducer });
 // 水果店
 const store = createStore(reducer);
 
-// 每一笔交易都记下来给老板看
+// 每一笔交易都记下来给阿大看
 store.subscribe(() => console.log(JSON.stringify(store.getState())));
 
 // 销售员开始销售，采购员开始采购
