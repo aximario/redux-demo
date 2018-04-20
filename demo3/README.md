@@ -102,7 +102,7 @@ function fetchImportedApple(action) {
   fetchGoodsGenerator(2000, action);
 }
 
-// 采购进口苹果需要 3 天（3s）
+// 采购进口鸡蛋需要 3 天（3s）
 function fetchImportedEgg(action) {
   fetchGoodsGenerator(3000, action);
 }
