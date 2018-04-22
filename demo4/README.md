@@ -55,3 +55,5 @@ store.dispatch(buyImportedEgg(10));
 营业模型：
 
 ![](http://ox12mie1c.bkt.clouddn.com/DEMO4.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)
+
+> 掘金：[Redux进阶 -- 改善水果店购买流程](https://github.com/aximario/redux-demo/blob/master/demo4/index.js)

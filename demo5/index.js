@@ -118,14 +118,19 @@ const thunkMiddleware = ({ dispatch }) => next => action => {
   return next(action);
 }
 
+const loggerMiddleware = ({ getState }) => next => action => {
+  console.log(`state before: ${JSON.stringify(getState())}`);
+  console.log(`action: ${JSON.stringify(action)}`);
+  next(action);
+  console.log(`state after: ${JSON.stringify(getState())}`);
+  console.log('================================================')
+}
+
 // 总收银员
 const reducer = combineReducers({ fruit: fruitReducer, fresh: freshReducer });
 
 // 水果店
-const store = createStore(reducer, applyMiddleware(thunkMiddleware));
-
-// 每一笔交易都记下来给阿大看
-store.subscribe(() => console.log(JSON.stringify(store.getState())));
+const store = createStore(reducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
 // 销售员开始销售，采购员开始采购
 store.dispatch(buyApple(3));
