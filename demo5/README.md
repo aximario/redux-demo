@@ -102,6 +102,7 @@ const loggerMiddleware = ({ getState }) => next => action => {
 ```js
 const { createStore, combineReducers, applyMiddleware } = require('redux');
 
+// 中间件的调用顺序是从右到左
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
 ```
 
