@@ -104,7 +104,7 @@ store.dispatch(buyApple(4)); // {"apple":7}
 
 ### action
 
-`**action**` 是行为信息的抽象，对象类型。这个对象必须有一个 `type` 属性来表示这个 action 是什么，对于对象里面的其他内容，redux 不做限制。但是推荐符合 [Flux Standard Action](https://github.com/redux-utilities/flux-standard-action) 规范：
+`action` 是行为信息的抽象，对象类型。这个对象必须有一个 `type` 属性来表示这个 action 是什么，对于对象里面的其他内容，redux 不做限制。但是推荐符合 [Flux Standard Action](https://github.com/redux-utilities/flux-standard-action) 规范：
 
 ```js
 {
@@ -115,7 +115,7 @@ store.dispatch(buyApple(4)); // {"apple":7}
 
 ### action creator
 
-`**action creator**` 顾名思义就是用来创建 action 的，action creator 只简单的返回 action。
+`action creator` 顾名思义就是用来创建 action 的，action creator 只简单的返回 action。
 
 ```js
 function createAction(num) {
@@ -128,7 +128,7 @@ function createAction(num) {
 
 ### state
 
-`**state**` 是被托管的数据，也就是每次触发监听事件，我们要操作的数据。
+`state` 是被托管的数据，也就是每次触发监听事件，我们要操作的数据。
 
 ### reducer
 
@@ -144,7 +144,7 @@ nextState = reducer(prevState, action);
 
 ### store
 
-`**store**` 是把上面三个元素合起来的一个大对象:
+`store` 是把上面三个元素合起来的一个大对象:
 
 ```js
 {
