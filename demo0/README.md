@@ -1,6 +1,6 @@
 # Redux 是什么
 
-每当我们谈及到 **redux**，大家都会说是 **react** 的状态管理工具。这么说确实没错，毕竟 redux 项目也是 **[React Community](https://github.com/reactjs)** 组织下的一个子项目。而且 redux 的诞生也是和 react 这个 ui 库急需一个状态管理解决方案有很大的联系。但是 redux 和 react 并没有任何的耦合。虽然它们经常一起用，但是 redux 的用途并不局限于 react，或者说，和 react 的结合只是 redux 的使用方式之一。
+每当我们谈及到 **[redux](https://github.com/reactjs/redux)**，大家都会说是 **[react](https://github.com/facebook/react)** 的状态管理工具。这么说确实没错，毕竟 redux 项目也是 **[React Community](https://github.com/reactjs)** 组织下的一个子项目。而且 redux 的诞生也是和 react 这个 ui 库急需一个状态管理解决方案有很大的联系。但是 redux 和 react 并没有任何的耦合。虽然它们经常一起用，但是 redux 的用途并不局限于 react，或者说，和 react 的结合只是 redux 的使用方式之一。
 
 那么撇开 react 不谈， redux 到底是什么呢？我们看一下这个例子。
 
