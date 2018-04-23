@@ -152,3 +152,7 @@ store.dispatch(buyImportedEgg(10));
 ```
 
 上面我们写的两个中间件其实就是 `redux-thunk` 和 `redux-logger` 的简版。在实际中，推荐使用它们，会更可信。
+
+营业模型：
+
+![](http://ox12mie1c.bkt.clouddn.com/DEMO5.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)
