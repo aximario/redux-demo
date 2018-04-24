@@ -1,10 +1,12 @@
-# Redux入门 -- 买水果生鲜
+# Redux入门 -- 拆分 reducer
 
-> 掘金：[Redux 入门 -- 买水果生鲜](https://juejin.im/post/5ad56db7518825558c47ec91)
+> 掘金：[Redux 入门 -- 拆分 reducer](https://juejin.im/post/5ad56db7518825558c47ec91)
 
 > 本文目标：希望通过买水果生鲜的例子，和大家探讨一下如何用 `redux` 处理比较复杂的 `store` 模型。
 
-在上一篇文章 [Redux 入门 -- 买水果](https://juejin.im/post/5ad466f15188255c27226796)中，阿大用 `redux` 升级了水果店。 
+## 例子：买水果生鲜
+
+在上一篇文章 [Redux 入门 -- 基础用法](https://juejin.im/post/5ad466f15188255c27226796)中，阿大用 `redux` 开起了水果店。 
 
 谁知道水果店生意越来越好，于是阿大开始拓展业务，不仅卖水果，还卖起了生鲜，于是有了水果部和生鲜部。
 
@@ -15,7 +17,9 @@
 function buyEgg(num) {
   return {
     type: 'BUY_EGG',
-    payload: num
+    payload: {
+      count: num
+    }
   }
 }
 ```
@@ -44,7 +48,7 @@ const freshState = {
 function freshReducer(state = freshState, action) {
   if (action.type === 'BUY_EGG') {
     return Object.assign({}, state, {
-      egg: state.egg + action.payload
+      egg: state.egg + action.payload.count
     });
   }
   return state;
@@ -59,7 +63,7 @@ function freshReducer(state = freshState, action) {
 + function fruitReducer(state = fruitState, action) {
    if (action.type === 'BUY_APPLE') {
      return Object.assign({}, state, {
-       apple: state.apple + action.payload
+       apple: state.apple + action.payload.count
      });
    }
    return state;
@@ -98,6 +102,20 @@ store.dispatch(buyEgg(8)); // {"fruit":{"apple":7},"fresh":{"egg":9}}
 
 升级之后的水果生鲜店又稳稳当当的运营起来了，阿大心里美滋滋~
 
-营业模型：
+## 讲解：
+
+### combineReducers
+
+当业务场景越来越复杂的时候，state 的结构也会变得越来越复杂而且庞大。如果只用一个 reducer 来计算 state 的变化势必会特别麻烦。这个时候我们就可以把 state 里独立的数据分离出来，单独用一个 reducer 来计算，然后再通过 `combineReducers` 方法合入到 state 中。
+
+combineReducers 接收一个对象，这个对象就是最终的 state
+
+```js
+const reducer = combineReducers({
+  fruits: fruitsReducer,
+  fresh: freshReducer
+});
+```
+## 图解：
 
 ![](http://ox12mie1c.bkt.clouddn.com/DEMO2.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)

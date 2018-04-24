@@ -102,9 +102,15 @@ store.dispatch(buyApple(4)); // {"apple":7}
 
 上面的例子涉及到了 redux 的几个概念：**action**，**action creator**，**state**，**store**。
 
+不过在此之前要先说 redux 特别讲究也是特别重要的 3 点：
+
+1. 只能有唯一的 store 对象保存整个应用的 state
+2. state 是只读的，只能通过 dispatch(action) 的方式来改变 state
+3. reducer 必须是纯函数
+
 ### action
 
-`action` 是行为信息的抽象，对象类型。这个对象必须有一个 `type` 属性来表示这个 action 是什么，对于对象里面的其他内容，redux 不做限制。但是推荐符合 [Flux Standard Action](https://github.com/redux-utilities/flux-standard-action) 规范：
+`action` 是行为信息的抽象，对象类型，它描述发生了什么。这个对象必须有一个 `type` 属性，对于对象里面的其他内容，redux 不做限制。但是推荐符合 [Flux Standard Action](https://github.com/redux-utilities/flux-standard-action) 规范：
 
 ```js
 {

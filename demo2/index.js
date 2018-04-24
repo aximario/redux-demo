@@ -8,7 +8,9 @@
 function buyApple(num) {
   return {
     type: 'BUY_APPLE',
-    payload: num
+    payload: {
+      count: num
+    }
   }
 }
 
@@ -16,7 +18,9 @@ function buyApple(num) {
 function buyEgg(num) {
   return {
     type: 'BUY_EGG',
-    payload: num
+    payload: {
+      count: num
+    }
   }
 }
 /** --- 顾客的需求 ---*/
@@ -33,7 +37,7 @@ function fruitReducer(state = fruitState, action) {
   // 如果有人买了苹果，更新账本
   if (action.type === 'BUY_APPLE') {
     return Object.assign({}, state, {
-      apple: state.apple + action.payload
+      apple: state.apple + action.payload.count
     });
   }
   
@@ -45,7 +49,7 @@ function fruitReducer(state = fruitState, action) {
 function freshReducer(state = freshState, action) {
   if (action.type === 'BUY_EGG') {
     return Object.assign({}, state, {
-      egg: state.egg + action.payload
+      egg: state.egg + action.payload.count
     });
   }
   return state;
@@ -54,19 +58,12 @@ function freshReducer(state = freshState, action) {
 
 const { createStore, combineReducers } = require('redux');
 
-// 总账本
 const state = { fruit: fruitReducer, fresh: freshReducer };
-
-// 总收银员
 const reducer = combineReducers(state);
-
-// 水果店
 const store = createStore(reducer);
 
-// 每一笔交易都记下来给老板看
 store.subscribe(() => console.log(JSON.stringify(store.getState())));
 
-// 销售员开始销售
 store.dispatch(buyApple(3));
 store.dispatch(buyEgg(1));
 store.dispatch(buyApple(4));
