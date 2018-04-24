@@ -179,9 +179,8 @@ const unsubscribe = store.subscribe(() => { /** do something */});
 unsubscribe();
 ```
 
-## 图解：
+## 图解
 
 ![](http://ox12mie1c.bkt.clouddn.com/DEMO1.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)
 
-
-> 下一篇：掘金：[Redux入门 -- 买水果生鲜](https://juejin.im/post/5ad56db7518825558c47ec91)
+> 下一篇：[Redux 入门 -- 拆分 reducer](https://juejin.im/post/5ad56db7518825558c47ec91)

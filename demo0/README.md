@@ -1,5 +1,7 @@
 # Redux 是什么
 
+> 掘金：[Redux 是什么](https://juejin.im/post/5adee1d9f265da0b9347f32f)
+
 每当我们谈及到 **[redux](https://github.com/reactjs/redux)**，大家都会说是 **[react](https://github.com/facebook/react)** 的状态管理工具。这么说确实没错，毕竟 redux 项目也是 **[React Community](https://github.com/reactjs)** 组织下的一个子项目。而且 redux 的诞生也是和 react 这个 ui 库急需一个状态管理解决方案有很大的联系。但是 redux 和 react 并没有任何的耦合。虽然它们经常一起用，但是 redux 的用途并不局限于 react，或者说，和 react 的结合只是 redux 的使用方式之一。
 
 那么撇开 react 不谈， redux 到底是什么呢？我们看一下这个例子。
@@ -64,3 +66,5 @@ console.log(store.getState());
 但是！！！`redux` 是一门很**讲究**的库，虽然上面的例子跑起来没有任何问题，但是有一件事情 -- **嘲讽**：`console.log('哈哈哈，你又长胖了！！')`，不应该放在 `listener` 里面做。而是应该放到 **redux 中间件**里去做。至于什么是 **redux 中间件**和**为什么要这么麻烦**，我觉得可以在后面的文章中再和大家探讨一下，同时也欢迎大家在评论区提出自己的意见和建议。
 
 好，看完这个例子，大家知道 redux 是什么了吗？emmm，其实我也不知道 redux 是什么，反正我知道了它可以用来做什么事情。就像一个**扳手🔧**，它创造出来是用来拧螺丝的，也许这是它最擅长的。但是谁说不能用扳手来砸核桃呢，或者当装饰，甚至当武器也可以呀~
+
+下一篇：[Redux 入门 -- 基础用法](https://juejin.im/post/5ad466f15188255c27226796)

@@ -8,7 +8,9 @@
 function buyApple(num) {
   return {
     type: 'BUY_APPLE',
-    payload: num
+    payload: {
+      count: num
+    }
   }
 }
 
@@ -16,7 +18,9 @@ function buyApple(num) {
 function buyEgg(num) {
   return {
     type: 'BUY_EGG',
-    payload: num
+    payload: {
+      count: num
+    }
   }
 }
 
@@ -24,7 +28,9 @@ function buyEgg(num) {
 function buyImportedApple(num) {
   return dispatch => API.fetchImportedApple(() => dispatch({
     type: 'BUY_IMPORTED_APPLE',
-    payload: num
+    payload: {
+      count: num
+    }
   }));
 }
 
@@ -32,7 +38,9 @@ function buyImportedApple(num) {
 function buyImportedEgg(num) {
   return dispatch => API.fetchImportedEgg(() => dispatch({
     type: 'BUY_IMPORTED_EGG',
-    payload: num
+    payload: {
+      count: num
+    }
   }));
 }
 /** --- 顾客的需求 ---*/
@@ -50,11 +58,11 @@ function fruitReducer(state = fruitState, action) {
   switch (action.type) {
     case 'BUY_APPLE':
       return Object.assign({}, state, {
-        apple: state.apple + action.payload
+        apple: state.apple + action.payload.count
       });
     case 'BUY_IMPORTED_APPLE':
       return Object.assign({}, state, {
-        importedApple: state.importedApple + action.payload
+        importedApple: state.importedApple + action.payload.count
       });
 
     // 买其他的东西，不更新账本，原样返回
@@ -67,11 +75,11 @@ function freshReducer(state = freshState, action) {
   switch (action.type) {
     case 'BUY_EGG':
       return Object.assign({}, state, {
-        egg: state.egg + action.payload
+        egg: state.egg + action.payload.count
       });
     case 'BUY_IMPORTED_EGG':
       return Object.assign({}, state, {
-        importedEgg: state.importedEgg + action.payload
+        importedEgg: state.importedEgg + action.payload.count
       });
     default: return state;
   } 

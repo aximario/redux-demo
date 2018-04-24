@@ -2,6 +2,8 @@
 
 > 本文目标：和大家探讨一下如何通过编写和使用 `redex 中间件` 来帮助我们更好的使用 `redux`。
 
+## 例子
+
 在上一篇文章 [Redux进阶 -- 改善水果店购买流程](https://juejin.im/post/5ad9e80f518825671d201f83)中，阿大通过改善流程对接完成了水果店的升级。
 
 但是阿大又有一个新的想法，他想详细的看看每一个顾客的购买需求来了之后，账本的前后变化。看来又要加一个新角色**记录员**了。难道要像加**采购员**那样手动的一个个的加吗？那可太麻烦了。正好阿大发现 `redux` 里有一个功能就是中间件。中间件是干嘛的呢？简而言之，就是把顾客的需求从**销售员**到**收银员**之间加上各种角色来处理。每一个角色就是一个中间件。接下来阿大就开始来写中间件了。
@@ -11,16 +13,16 @@
 那这样，就可以把原来的**采购员**也改造成中间件了，其实采购员就是拿到了顾客需求之后让顾客的需求延迟 `dispatch`，这用延迟用函数就可以做到了:
 
 ```js
-// dispatch 是用中间件增强之后的 dispatch
-// next 是最原始的 store.dispatch
+// next 是用中间件增强之后的 dispatch
+// dispatch 是最原始的 store.dispatch
 const thunkMiddleware = ({ dispatch }) => next => action => {
   if (typeof action === 'function') {
 
-    // 函数形式的 action 就把增强的 dispatch 给这个 action，让 action 决定什么时候 dispatch （控制反转）
+    // 函数形式的 action 就把 dispatch 给这个 action，让 action 决定什么时候 dispatch （控制反转）
     return action(dispatch);
   }
 
-  // 普通的 action 就直接传递给原来的 store.dispatch 不做任何处理
+  // 普通的 action 就直接传递给下一个中间件处理
   return next(action);
 }
 ```
@@ -85,9 +87,10 @@ const API = {
 const loggerMiddleware = ({ getState }) => next => action => {
   console.log(`state before: ${JSON.stringify(getState())}`);
   console.log(`action: ${JSON.stringify(action)}`);
-  next(action);
+  const result = next(action);
   console.log(`state after: ${JSON.stringify(getState())}`);
-  console.log('================================================')
+  console.log('================================================');
+  return result;
 }
 ```
 
@@ -153,6 +156,22 @@ store.dispatch(buyImportedEgg(10));
 
 上面我们写的两个中间件其实就是 `redux-thunk` 和 `redux-logger` 的简版。在实际中，推荐使用它们，会更可信。
 
-营业模型：
+## 讲解
+
+编写 redux 中间件需要按照要求来，返回这样的函数
+
+```js
+// 中间件接受一个对象，里面有原始的 dispatch，和 getState 方法用于获取 state
+// 中间件函数返回一个函数，这个函数接受一个 next 参数，这个 next 是下一个中间件要做的事情 action => { ... }
+function thunkMiddleware({ dispatch, getState }) {
+  return function(next) {
+    return function(action) {
+      // 做你的事情
+    }
+  }
+}
+```
+
+## 图解
 
 ![](http://ox12mie1c.bkt.clouddn.com/DEMO5.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)

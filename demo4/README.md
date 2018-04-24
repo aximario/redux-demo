@@ -1,8 +1,10 @@
-# Redux进阶 -- 改善水果店购买流程
+# Redux进阶 -- 优雅的处理 async action
 
 > 本文目标：希望通过买进口水果生鲜的例子，和大家探讨一下如何优雅的处理异步的 `async action`。
 
-在上一篇文章 [Redux 入门 -- 买进口水果生鲜](https://juejin.im/post/5ad5920e6fb9a028c523afcf)中，阿大通过请了一个采购员完成了耗时的进口商品的售卖。
+## 例子：改善水果店购买流程
+
+在上一篇文章 [Redux 入门 -- 处理 async action](https://juejin.im/post/5ad5920e6fb9a028c523afcf)中，阿大通过请了一个采购员完成了耗时的进口商品的售卖。
 
 但是，阿大同时也发现了一个问题：顾客要买水果生鲜的话需要找**销售员**，要买进口水果生鲜的话要找**采购员**，这样的话，顾客需要找不同的人，很麻烦。阿大想了想，能不能让顾客只找销售员，然后销售员如果有需求再找**采购员**采购呢。
 
@@ -52,8 +54,8 @@ store.dispatch(buyImportedEgg(10));
 
 嗯嗯，这样看起来就一致多了。阿大心里美滋滋~
 
-营业模型：
+## 图解：
 
 ![](http://ox12mie1c.bkt.clouddn.com/DEMO4.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)
 
-> 掘金：[Redux进阶 -- 改善水果店购买流程](https://github.com/aximario/redux-demo/blob/master/demo4/index.js)
+> 下一篇：[Redux 进阶 -- 编写和使用中间件](https://juejin.im/post/5add5821518825671f2f5f24)

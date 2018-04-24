@@ -1,8 +1,10 @@
-# Redux 入门 -- 买进口水果生鲜
+# Redux 入门 -- 处理 async action
 
 > 本文目标：希望通过买进口水果生鲜的例子，和大家探讨一下如何处理异步的 `async action`。
 
-在上一篇文章 [Redux 入门 -- 买水果生鲜](https://juejin.im/post/5ad56db7518825558c47ec91)中，阿大通过 `redux` 的 `bindReducer` 方法将水果店的业务分治成功，店铺也越做越大。以至于有顾客开始想要买一些进口的水果生鲜。
+## 例子：买进口水果生鲜
+
+在上一篇文章 [Redux入门 -- 拆分 reducer](https://juejin.im/post/5ad56db7518825558c47ec91)中，阿大通过 `redux` 的 `bindReducers` 方法将水果店的业务分治成功，店铺也越做越大。以至于有顾客开始想要买一些进口的水果生鲜。
 
 阿大考虑了一下，决定继续拓展这个店铺，从事进口商品的销售。首先是顾客的需求行为需要购买进口水果生鲜：
 
@@ -11,7 +13,9 @@
 + function buyImportedApple(num) {
 +   return {
 +     type: 'BUY_IMPORTED_APPLE',
-+     payload: num
++     payload: {
++       num
++     }
 +   }
 + }
 
@@ -19,7 +23,9 @@
 + function buyImportedEgg(num) {
 +   return  {
 +     type: 'BUY_IMPORTED_EGG',
-+     payload: num
++     payload: {
++       num
++     }
 +   }
 + }
 ```
@@ -54,11 +60,11 @@ function fruitReducer(state = fruitState, action) {
   switch (action.type) {
     case 'BUY_APPLE':
       return Object.assign({}, state, {
-        apple: state.apple + action.payload
+        apple: state.apple + action.payload.count
       });
     case 'BUY_IMPORTED_APPLE':
       return Object.assign({}, state, {
-        importedApple: state.importedApple + action.payload
+        importedApple: state.importedApple + action.payload.count
       });
 
     // 买其他的东西，不更新账本，原样返回
@@ -71,11 +77,11 @@ function freshReducer(state = freshState, action) {
   switch (action.type) {
     case 'BUY_EGG':
       return Object.assign({}, state, {
-        egg: state.egg + action.payload
+        egg: state.egg + action.payload.count
       });
     case 'BUY_IMPORTED_EGG':
       return Object.assign({}, state, {
-        importedEgg: state.importedEgg + action.payload
+        importedEgg: state.importedEgg + action.payload.count
       });
     default: return state;
   } 
@@ -138,8 +144,12 @@ API.fetchImportedEgg(buyImportedEgg(10));
 
 现在水果生鲜店的进口业务也稳妥了，阿大心里美滋滋~
 
-营业模型：
+## 讲解
+
+在实际的开发当中我们经常会调用一些 API 接口获取数据更新 state。刚开始使用 redux 的一个误区就是在 reducer 里接收到异步的 action 之后，就在 reducer 里做异步操作，调用 API。但是这样是**错误**的。reducer 只能是纯函数，不能有任何副作用。这样才能保证对于相同的输入，一定会有相同的输出。
+
+## 图解：
 
 ![](http://ox12mie1c.bkt.clouddn.com/DEMO3.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)
 
-> 掘金：[Redux入门 -- 买进口水果生鲜](https://juejin.im/post/5ad5920e6fb9a028c523afcf)
+> 下一篇：[Redux 进阶 -- 优雅的处理 async action](https://juejin.im/post/5ad9e80f518825671d201f83)
