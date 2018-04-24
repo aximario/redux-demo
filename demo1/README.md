@@ -2,7 +2,7 @@
 
 > 掘金：[Redux 入门 -- 基础用法](https://juejin.im/post/5ad466f15188255c27226796)
 
-> 本文目标：希望通过买水果的例子，和大家探讨下 `redux` 的基本用法，能快速入门 `redux`。
+> 本文目标：希望通过买水果的例子，和大家探讨下 `redux` 的基础用法，能快速入门 `redux`。
 
 ## 例子：买水果
 
@@ -182,5 +182,7 @@ unsubscribe();
 ## 图解
 
 ![](http://ox12mie1c.bkt.clouddn.com/DEMO1.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)
+
+> 上一篇：[Redux 是什么](https://juejin.im/post/5adee1d9f265da0b9347f32f)
 
 > 下一篇：[Redux 入门 -- 拆分 reducer](https://juejin.im/post/5ad56db7518825558c47ec91)

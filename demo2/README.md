@@ -120,4 +120,6 @@ const reducer = combineReducers({
 
 ![](http://ox12mie1c.bkt.clouddn.com/DEMO2.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)
 
+> 上一篇：[Redux 入门 -- 基础用法](https://juejin.im/post/5ad466f15188255c27226796)
+
 > 下一篇：[Redux 入门 -- 处理 async action](https://juejin.im/post/5ad5920e6fb9a028c523afcf)

@@ -61,6 +61,8 @@ store.dispatch({ type: 'update_weight', weight: 8 });
 
 // 查看触发事件之后的 cat 对象
 console.log(store.getState());
+// 哈哈哈，你又长胖了！！
+// { name: 'youtiao', age: 1, weight: 8 }
 ```
 
 但是！！！`redux` 是一门很**讲究**的库，虽然上面的例子跑起来没有任何问题，但是有一件事情 -- **嘲讽**：`console.log('哈哈哈，你又长胖了！！')`，不应该放在 `listener` 里面做。而是应该放到 **redux 中间件**里去做。至于什么是 **redux 中间件**和**为什么要这么麻烦**，我觉得可以在后面的文章中再和大家探讨一下，同时也欢迎大家在评论区提出自己的意见和建议。

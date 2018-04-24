@@ -4,7 +4,7 @@
 
 ## 例子：买进口水果生鲜
 
-在上一篇文章 [Redux入门 -- 拆分 reducer](https://juejin.im/post/5ad56db7518825558c47ec91)中，阿大通过 `redux` 的 `bindReducers` 方法将水果店的业务分治成功，店铺也越做越大。以至于有顾客开始想要买一些进口的水果生鲜。
+在上一篇文章 [Redux入门 -- 拆分 reducer](https://juejin.im/post/5ad56db7518825558c47ec91) 中，阿大通过 `redux` 的 `bindReducers` 方法将水果店的业务分治成功，店铺也越做越大。以至于有顾客开始想要买一些进口的水果生鲜。
 
 阿大考虑了一下，决定继续拓展这个店铺，从事进口商品的销售。首先是顾客的需求行为需要购买进口水果生鲜：
 
@@ -151,5 +151,7 @@ API.fetchImportedEgg(buyImportedEgg(10));
 ## 图解：
 
 ![](http://ox12mie1c.bkt.clouddn.com/DEMO3.png?imageView2/0/q/75%7Cwatermark/2/text/6Zi_5biM/font/5b6u6L2v6ZuF6buR/fontsize/320/fill/I0ZGRkZGRg==/dissolve/50/gravity/SouthEast/dx/20/dy/20%7Cimageslim)
+
+> 上一篇：[Redux入门 -- 拆分 reducer](https://juejin.im/post/5ad56db7518825558c47ec91)
 
 > 下一篇：[Redux 进阶 -- 优雅的处理 async action](https://juejin.im/post/5ad9e80f518825671d201f83)
