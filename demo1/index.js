@@ -1,8 +1,3 @@
-/**
- * redux入门 -- 掘金：[Redux 入门 -- 基础用法](https://juejin.im/post/5ad466f15188255c27226796)
- * @author aximario
- */
-
 function buyApple(num) {
   return {
     type: 'BUY_APPLE',

@@ -1,8 +1,3 @@
-/**
- * redux入门 -- 买进口水果生鲜示例 https://juejin.im/post/5ad5920e6fb9a028c523afcf
- * @author aximario 2018-04-18
- */
-
 /** --- 顾客的需求 ---*/
 // 买水果 - 苹果
 function buyApple(num) {
