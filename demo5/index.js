@@ -115,6 +115,7 @@ const { createStore, combineReducers, applyMiddleware } = require('redux');
 
 // middleware
 const thunkMiddleware = ({ dispatch }) => next => action => {
+  console.log('hahahah')
   if (typeof action === 'function') {
     return action(dispatch);
   }

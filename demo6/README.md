@@ -268,7 +268,7 @@ function applyMiddleware(...middlewares) {
 }
 ```
 
-原来 `applyMiddleware` 啥也没做，就返回了一个函数 `createStore => { // ... }`。对，这就是我们传到 createStore 里的 enhancer，它又接收 createStore 函数作为参数，返回了一个函数 `(...args) => { // ... }`，我们暂且叫它 executor。
+原来 `applyMiddleware` 啥也没做，就返回了一个函数 `createStore => { // ... }`。这就是我们传到 createStore 里的 enhancer，它又接收 createStore 函数作为参数，返回了一个函数 `(...args) => { // ... }`，我们暂且叫它 executor。
 
 所以上面源码的这么一段可以这样拆分：
 
@@ -316,13 +316,6 @@ function executor(...args) {
   const chain = middlewares.map(middleware => middleware(middlewareAPI))
 
   // compose 起来，传给最后一个 middleware 的参数是 store.dispatch，上面有讲过 compose
-  // compose(...chain) = 
-  // (...args) => ((next => action => { //middleware2 })(...args)) => action => { // middleware1 }
-  // 所以 dispatch = 
-  // (store.dispatch) => ((next => action => { //middleware2 })(store.dispatch)) => action => { // middleware1 }
-  // 这里会比较难理解和难用文字解释清楚，最好是自己一行一行的跑
-  // 总结来说，最后的一个 middleware 的 next 是 store.dispatch
-  // 前面的 middleware 的 next 是后一个 middleware
   dispatch = compose(...chain)(store.dispatch)
 
   return {
@@ -333,3 +326,116 @@ function executor(...args) {
   }
 }
 ```
+
+我们还是把上面的 `dispatch = compose(...chain)(store.dispatch)` 拆开来看：
+
+```js
+compose(...chain)
+// compose(next => action => { console.log('m1', next) }, next => action => { console.log('m2', next) });
+
+// 结果
+const executor = (...args) => a(b(...args));
+
+//其中
+// a = next => action => { console.log('m1', next) }
+// b = next => action => { console.log('m2', next) }
+
+// 然后
+dispatch = executor(store.dispatch)
+
+// 结果
+dispatch = a(b(store.dispatch))
+
+// 即
+(store.dispatch /** m2 next */ => {
+  action => {
+    console.log('m2', next)
+  }
+} /** m1 next */ ) => {
+  action => {
+    console.log('m1', next);
+  }
+}
+```
+
+总结下来，假设有 3 个中间件：`m1`，`m2`，`m3`。这个时候 dispatch 了一个 action。此时的 dispatch 已经不是最原始的 store.dispatch 了。而是经过 compose 过中间件的 dispatch。这个 action 会依次经过 m1, m2, m3 的处理，m1 处理完了之后会调用 `next(action)`，这个 next 就是 m2，实际上是调用第二个中间件处理 action，然后依次类推，m2 会调用 `next(action)`，这个 next 就是 m3。因为 m3 是最后一个中间件，所以 m3 里的 `next` 实际上就是 `store.dispatch`。
+
+我们来用这个例子验证一下：
+
+```js
+const redux = require('redux');
+
+const enhancer = redux.applyMiddleware(
+  function({ dispatch }) {
+    return function(next) {
+      return function(action) {
+        console.log('m1', next);
+        next(action);
+      }
+    }
+  },
+  function({ dispatch }) {
+    return function(next) {
+      return function(action) {
+        console.log('m2', next);
+        next(action);
+      }
+    }
+  },
+  function({ dispatch }) {
+    return function(next) {
+      return function(action) {
+        console.log('m3', next);
+        next(action);
+      }
+    }
+  }
+);
+
+const store = redux.createStore(function(state = { test: 'a' }, action) {
+  if (action.type === 'TEST') {
+    return Object.assign({}, state, { test: 'b' });
+  }
+  return state;
+}, enhancer);
+
+store.dispatch({ type: 'TEST' });
+// m1 function (action) {
+//         console.log('m2', next);
+//         next(action);
+//       }
+// m2 function (action) {
+//         console.log('m3', next);
+//         next(action);
+//       }
+// m3 function dispatch(action) {
+//     if (!(0, _isPlainObject2['default'])(action)) {
+//       throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+//     }
+
+//     if (typeof action.type === 'undefined') {
+//       throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+//     }
+
+//     if (isDispatching) {
+//       throw new Error('Reducers may not dispatch actions.');
+//     }
+
+//     try {
+//       isDispatching = true;
+//       currentState = currentReducer(currentState, action);
+//     } finally {
+//       isDispatching = false;
+//     }
+
+//     var listeners = currentListeners = nextListeners;
+//     for (var i = 0; i < listeners.length; i++) {
+//       var listener = listeners[i];
+//       listener();
+//     }
+
+//     return action;
+//   }
+```
+
+结果和预料的是一样的。
